@@ -1,31 +1,93 @@
-s --> [].
-s --> simple_s(subject).
-s --> simple_s(subject), conj, s.
-simple_s(subject) --> np(subject), vp.
-simple_s(subject) --> np(subject), conj2, simple_s(subject).
-np(_) --> det, n.
-np(_) --> det, adjective, n.
-np(X) --> pro(X).
-vp --> v, np(object), do.
-vp --> v, do2, np(object).
-vp --> v, np(object).
-vp --> v.
-do --> det, cn.
-do --> det, adjective, cn.
-do2 --> det, cn, preposition.
-det --> [the]; [a].
-adjective --> [good]; [little]; [old]; [adorable]; [dead]; [fancy]. 
-adjective --> [important]; [kind]; [white]; [red]; [blue]; [green].
-adjective --> [elegant]; [scary]; [black]; [hot]; [cool]; [strong].
-preposition --> [from]; [across]; [with]; [before]; [for]; [like].
-n --> [woman]; [man]; [kid]; [dog]; [house]; [car]; [computer]; [ball].
-cn --> [house]; [car]; [computer]; [ball].
-v --> [bought]; [sold]; [threw]; [read]; [loves]; [invite]; [miss]; [work].
-conj --> [and]; [or]; [,].
-conj2 --> [and]; [or]; [but]; [,].
-pro(_) --> [jhan]; [joseph]; [mary]; [anneleen]; [johan]; [peter]; [susan]; [paul].
-pro(subject) --> [i]; [you]; [he]; [she]; [we]; [they].
-pro(object) --> [me]; [you]; [him]; [her]; [it]; [us]; [them].
-
-
-
+s(s) --> [].
+s(s(SIMPLE_S)) --> simple_s(SIMPLE_S).
+s(s(SIMPLE_S, CONJ, S)) --> simple_s(SIMPLE_S), conj(CONJ), s(S).
+simple_s(simple_s(NP, VP)) --> vp(VP).
+simple_s(simple_s(NP, VP)) --> np(NP), vp(VP).
+simple_s(simple_s(NP, CONJ2, SIMPLE_S)) --> np(NP), conj2(CONJ2), simple_s(SIMPLE_S).
+np(np(DET, N)) --> det(DET), n(N).
+np(np(DET, ADJECTIVE, N)) --> det(DET), adjective(ADJECTIVE), n(N).
+np(np(PRO, PRO_SUBJECT)) --> pro(PRO); pro_subject(PRO_SUBJECT).
+vnp(vnp(DET, N)) --> det(DET), n(N).
+vnp(vnp(DET, ADJECTIVE, N)) --> det(DET), adjective(ADJECTIVE), n(N).
+vnp(vnp(PRO, PRO_OBJECT)) --> pro(PRO); pro_object(PRO_OBJECT).
+vp(vp(V, VNP, DO)) --> v(V), vnp(VNP), do(DO).
+vp(vp(V, DO2, VNP)) --> v(V), do2(DO2), vnp(VNP).
+vp(vp(V, VNP)) --> v(V), vnp(VNP).
+vp(vp(V)) --> v(V).
+do(do(DET, CN)) --> det(DET), cn(CN).
+do(do(DET, ADJECTIVE, CN)) --> det(DET), adjective(ADJECTIVE), cn(CN).
+do2(do2(DET, CN, PREPOSITION)) --> det(DET), cn(CN), preposition(PREPOSITION).
+det(det(the)) --> [the].
+det(det(a)) --> [a].
+adjective(adjective(good)) --> [good].
+adjective(adjective(little)) --> [little].
+adjective(adjective(old)) --> [old].
+adjective(adjective(adorable)) --> [adorable].
+adjective(adjective(dead)) --> [dead].
+adjective(adjective(fancy)) --> [fancy].
+adjective(adjective(important)) --> [important].
+adjective(adjective(kind)) --> [kind].
+adjective(adjective(white)) --> [white].
+adjective(adjective(red)) --> [red].
+adjective(adjective(blue)) --> [blue].
+adjective(adjective(green)) --> [green].
+adjective(adjective(elegant)) --> [elegant].
+adjective(adjective(scary)) --> [scary].
+adjective(adjective(black)) --> [black].
+adjective(adjective(hot)) --> [hot].
+adjective(adjective(cool)) --> [cool].
+adjective(adjective(strong)) --> [strong].
+preposition(preposition(from)) --> [from]. 
+preposition(preposition(across)) --> [across]. 
+preposition(preposition(with)) --> [with]. 
+preposition(preposition(before)) --> [before]. 
+preposition(preposition(for)) --> [for]. 
+preposition(preposition(like)) --> [like].
+n(n(man)) --> [man].
+n(n(woman)) --> [woman].
+n(n(kid)) --> [kid].
+n(n(dog)) --> [dog].
+n(n(house)) --> [house].
+n(n(car)) --> [car].
+n(n(computer)) --> [computer].
+n(n(ball)) --> [ball].
+cn(cn(house)) --> [house].
+cn(cn(car)) --> [car].
+cn(cn(computer)) --> [computer].
+cn(cn(ball)) --> [ball].
+v(v(bought)) --> [bought].
+v(v(sold)) --> [sold].
+v(v(threw)) --> [threw].
+v(v(read)) --> [read].
+v(v(loves)) --> [loves].
+v(v(invite)) --> [invite].
+v(v(miss)) --> [miss].
+v(v(work)) --> [work].
+conj(conj(and)) --> [and].
+conj(conj(or)) --> [or].
+conj(conj(,)) --> [,].
+conj2(conj2(and)) --> [and].
+conj2(conj2(or)) --> [or].
+conj2(conj2(but)) --> [or].
+conj2(conj2(,)) --> [,].
+pro(pro(jhan)) --> [jhan].
+pro(pro(joseph)) --> [joseph].
+pro(pro(mary)) --> [mary].
+pro(pro(anneleen)) --> [anneleen].
+pro(pro(johan)) --> [johan].
+pro(pro(peter)) --> [peter].
+pro(pro(susan)) --> [susan].
+pro(pro(paul)) --> [paul].
+pro_subject(pro_subject(i)) --> [i].
+pro_subject(pro_subject(you)) --> [you].
+pro_subject(pro_subject(he)) --> [he].
+pro_subject(pro_subject(she)) --> [she].
+pro_subject(pro_subject(we)) --> [we].
+pro_subject(pro_subject(they)) --> [they].
+pro_object(pro_object(me)) --> [me].
+pro_object(pro_object(you)) --> [you].
+pro_object(pro_object(him)) --> [him].
+pro_object(pro_object(her)) --> [her].
+pro_object(pro_object(it)) --> [it].
+pro_object(pro_object(us)) --> [us].
+pro_object(pro_object(them)) --> [them].
