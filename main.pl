@@ -1,22 +1,32 @@
 s(s) --> [].
 s(s(SIMPLE_S)) --> simple_s(SIMPLE_S).
 s(s(SIMPLE_S, CONJ, S)) --> simple_s(SIMPLE_S), conj(CONJ), s(S).
-simple_s(simple_s(NP, VP)) --> vp(VP).
+simple_s(simple_s(VP)) --> vp(VP).
 simple_s(simple_s(NP, VP)) --> np(NP), vp(VP).
 simple_s(simple_s(NP, CONJ2, SIMPLE_S)) --> np(NP), conj2(CONJ2), simple_s(SIMPLE_S).
 np(np(DET, N)) --> det(DET), n(N).
 np(np(DET, ADJECTIVE, N)) --> det(DET), adjective(ADJECTIVE), n(N).
-np(np(PRO, PRO_SUBJECT)) --> pro(PRO); pro_subject(PRO_SUBJECT).
+np(np(PRO)) --> pro(PRO).
+np(np(PRO_SUBJECT)) --> pro_subject(PRO_SUBJECT).
 vnp(vnp(DET, N)) --> det(DET), n(N).
 vnp(vnp(DET, ADJECTIVE, N)) --> det(DET), adjective(ADJECTIVE), n(N).
-vnp(vnp(PRO, PRO_OBJECT)) --> pro(PRO); pro_object(PRO_OBJECT).
+vnp(vnp(PRO)) --> pro(PRO).
+vnp(vnp(PRO_OBJECT)) --> pro_object(PRO_OBJECT).
+vnpp(vnpp(PRO, CN)) --> pro(PRO), cn(CN).
+vnpp(vnpp(PRO_POSSESIVE, CN)) --> pro_possesive(PRO_POSSESIVE), cn(CN).
 vp(vp(V, VNP, DO)) --> v(V), vnp(VNP), do(DO).
+vp(vp(V, VNP, VERB_PREPO, DO)) --> v(V), vnp(VNP), verb_prepo(VERB_PREPO), do(DO).
 vp(vp(V, DO2, VNP)) --> v(V), do2(DO2), vnp(VNP).
+vp(vp(V, DO2, VNP, VERB_PREPO, V2)) --> v(V), do2(DO2), vnp(VNP), verb_prepo(VERB_PREPO), v(V2).
+vp(vp(V, DO2, VNP, VERB_PREPO, VNPP)) --> v(V), do2(DO2), vnp(VNP), verb_prepo(VERB_PREPO), vnpp(VNPP).
 vp(vp(V, VNP)) --> v(V), vnp(VNP).
+vp(vp(V, VNP, VERB_PREPO, V2)) --> v(V), vnp(VNP), verb_prepo(VERB_PREPO), v(V2).
+vp(vp(V, VNP, VERB_PREPO, VNPP)) --> v(V), vnp(VNP), verb_prepo(VERB_PREPO), vnpp(VNPP).
 vp(vp(V)) --> v(V).
 do(do(DET, CN)) --> det(DET), cn(CN).
 do(do(DET, ADJECTIVE, CN)) --> det(DET), adjective(ADJECTIVE), cn(CN).
 do2(do2(DET, CN, PREPOSITION)) --> det(DET), cn(CN), preposition(PREPOSITION).
+verb_prepo(verb_prepo(to)) --> [to].
 det(det(the)) --> [the].
 det(det(a)) --> [a].
 adjective(adjective(good)) --> [good].
@@ -91,3 +101,9 @@ pro_object(pro_object(her)) --> [her].
 pro_object(pro_object(it)) --> [it].
 pro_object(pro_object(us)) --> [us].
 pro_object(pro_object(them)) --> [them].
+pro_possesive(pro_possesive(mine)) --> [mine].
+pro_possesive(pro_possesive(yours)) --> [yours].
+pro_possesive(pro_possesive(his)) --> [his].
+pro_possesive(pro_possesive(hers)) --> [hers].
+pro_possesive(pro_possesive(ours)) --> [ours].
+pro_possesive(pro_possesive(theirs)) --> [theirs].
