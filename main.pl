@@ -1,5 +1,5 @@
 /*
-	Module      : PP
+	Module      : ParseTree
 	Description : *description*
 	Copyright   : 	(c) Juan Ortiz, 13-11021
 						Carlos Serrada, 13-11347
@@ -31,7 +31,7 @@
 		object -> noun; object_pronoun.
 
 		prepositional_phrase -> preposition noun_phrase
-		prepositional_phrase -> preposition possesive_pronoum + noun_phrase
+		prepositional_phrase -> preposition possesive_pronoum noun_phrase
 
 		Algunos ejemplos de oraciones validas son:
 
@@ -133,7 +133,7 @@ verb(verb(sold)) --> [sold].
 verb(verb(threw)) --> [threw].
 verb(verb(read)) --> [read].
 verb(verb(loves)) --> [loves].
-verb(verb(invite)) --> [invite].
+verb(verb(invited)) --> [invited].
 verb(verb(visited)) --> [visited].
 
 conjunction(conjunction(and)) --> [and].
