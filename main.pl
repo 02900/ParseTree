@@ -9,55 +9,50 @@
 	Portability : POSIX
 */
 
+/*
+	Se construyo una gramatica en base a las siguientes reglas:
 
-/**
-	La gramatica consta de las siguientes reglas
 		sentence -> []
 		sentence -> verb_phrase
-		sentence -> noun_phrase + verb_phrase
+		sentence -> noun_phrase verb_phrase
 
 		noun_phrase -> name
 		noun_phrase -> subject_pronoun
-		noun_phrase -> article + noun
-		noun_phrase -> adjective + noun --	--	-->	--	--	-->			*revisar*
-		noun_phrase -> article + adjective + noun
+		noun_phrase -> article noun
+		noun_phrase -> article adjective noun
 		
-		e.g. Jhon runs
-		e.g. She runs
-		e.g. The kid runs
-		e.g. kind boy eat 	-->	--	--	--	--	-->	--	--	-->			*revisar*
-		e.g. A kind kid runs
-
 		verb_phrase -> verb
-		verb_phrase -> verb + noun_phrase
-		verb_phrase -> verb + noun_phrase + noun_phrase
-		verb_phrase -> verb + prepositional_phrase
-		verb_phrase -> verb + object
-		verb_phrase -> verb + object + prepositional_phrase
-
-		e.g. the kid visited her
-
+		verb_phrase -> verb noun_phrase
+		verb_phrase -> verb noun_phrase noun_phrase
+		verb_phrase -> verb prepositional_phrase
+		verb_phrase -> verb object
+		verb_phrase -> verb object prepositional_phrase
+		
 		object -> noun; object_pronoun.
 
-		prepositional_phrase -> preposition + noun_phrase
-		prepositional_phrase -> preposition + possesive_pronoum + noun_phrase
+		prepositional_phrase -> preposition noun_phrase
+		prepositional_phrase -> preposition possesive_pronoum + noun_phrase
 
-		e.g. the angry bearchased the frightened little squirrel
-		e.g. the car eat on the mat.
-		e.g. the kind man invite her to his house
+		Algunos ejemplos de oraciones validas son:
 
-		e.g. johan sold peter a car 
-		e.g. mary sold jhan a computer
-		e.g. anneleen bought a car from joseph
-		e.g. peter bought a computer from anneleen
+			mary sold jhan a computer
+			anneleen bought a car from joseph
+			peter bought a computer from anneleen
+			johan sold a woman the white car
 
-		e.g. johan sold a woman the white car
+			the kid eat
+			a kind kid eat
+			the kid miss her
+
+			peter and mary loves them
+			the kind man invite her to his house and she sold the house
+			mary sold jhan a computer and anneleen bought joseph a car or jhan sold the computer
 */
 
 s(s) --> [].
-s(s(S)) --> sentence(S).
-s(s(S, C, S2)) --> sentence(S), conjunction(C), s_aux(S2).
+s(s(S)) --> s_aux(S).
 s_aux(s_aux(S)) --> sentence(S).
+s_aux(s_aux(S, C, S2)) --> sentence(S), conjunction(C), s_aux(S2).
 
 sentence(sentence(VP)) --> verb_phrase(VP).
 sentence(sentence(NP, VP)) --> noun_phrase(NP), verb_phrase(VP).
@@ -84,6 +79,9 @@ object(object(OP)) --> object_pronoun(OP).
 prepositional_phrase(prepositional_phrase(P, N)) --> preposition(P), noun_phrase(N).
 prepositional_phrase(prepositional_phrase(P, SP, N)) --> preposition(P), possesive_pronoum(SP), noun_phrase(N).
 prepositional_phrase(prepositional_phrase(P, N, N2)) --> noun_phrase(N), preposition(P), noun_phrase(N2).
+
+
+% Ahora se establecen las palabras que contiene cada categoria
 
 article(article(the)) --> [the].
 article(article(a)) --> [a].
@@ -115,7 +113,7 @@ noun(noun(dog)) --> [dog].
 noun(noun(house)) --> [house].
 noun(noun(car)) --> [car].
 noun(noun(computer)) --> [computer].
-noun(noun(apple)) --> [computer].
+noun(noun(apple)) --> [apple].
 noun(noun(ball)) --> [ball].
 
 preposition(preposition(from)) --> [from]. 
@@ -126,15 +124,17 @@ preposition(preposition(for)) --> [for].
 preposition(preposition(like)) --> [like].
 preposition(preposition(to)) --> [to].
 
+verb(verb(miss)) --> [miss].
+verb(verb(work)) --> [work].
+verb(verb(eat)) --> [eat].
 verb(verb(bought)) --> [bought].
+verb(verb(bearchased)) --> [bearchased].
 verb(verb(sold)) --> [sold].
 verb(verb(threw)) --> [threw].
 verb(verb(read)) --> [read].
 verb(verb(loves)) --> [loves].
 verb(verb(invite)) --> [invite].
-verb(verb(miss)) --> [miss].
-verb(verb(work)) --> [work].
-verb(verb(eat)) --> [eat].
+verb(verb(visited)) --> [visited].
 
 conjunction(conjunction(and)) --> [and].
 conjunction(conjunction(or)) --> [or].
