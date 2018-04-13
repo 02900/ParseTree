@@ -1,34 +1,94 @@
+/*
+	Module      : PP
+	Description : *description*
+	Copyright   : 	(c) Juan Ortiz, 13-11021
+						Carlos Serrada, 13-11347
+	License     : BSD 3-Clause
+	Maintainer  : ortiz.juan14@gmail.com
+	Stability   : Production release
+	Portability : POSIX
+*/
+
+
+/**
+	La gramatica consta de las siguientes reglas
+		sentence -> []
+		sentence -> verb_phrase
+		sentence -> noun_phrase + verb_phrase
+
+		noun_phrase -> name
+		noun_phrase -> subject_pronoun
+		noun_phrase -> article + noun
+		noun_phrase -> adjective + noun --	--	-->	--	--	-->			*revisar*
+		noun_phrase -> article + adjective + noun
+		
+		e.g. Jhon runs
+		e.g. She runs
+		e.g. The kid runs
+		e.g. kind boy eat 	-->	--	--	--	--	-->	--	--	-->			*revisar*
+		e.g. A kind kid runs
+
+		verb_phrase -> verb
+		verb_phrase -> verb + noun_phrase
+		verb_phrase -> verb + noun_phrase + noun_phrase
+		verb_phrase -> verb + prepositional_phrase
+		verb_phrase -> verb + object
+		verb_phrase -> verb + object + prepositional_phrase
+
+		e.g. the kid visited her
+
+		object -> noun; object_pronoun.
+
+		prepositional_phrase -> preposition + noun_phrase
+		prepositional_phrase -> preposition + possesive_pronoum + noun_phrase
+
+		e.g. the angry bearchased the frightened little squirrel
+		e.g. the car eat on the mat.
+		e.g. the kind man invite her to his house
+
+		e.g. johan sold peter a car 
+		e.g. mary sold jhan a computer
+		e.g. anneleen bought a car from joseph
+		e.g. peter bought a computer from anneleen
+
+		e.g. johan sold a woman the white car
+*/
+
 s(s) --> [].
-s(s(SIMPLE_S)) --> simple_s(SIMPLE_S).
-s(s(SIMPLE_S, CONJ, S)) --> simple_s(SIMPLE_S), conj(CONJ), s(S).
-simple_s(simple_s(VP)) --> vp(VP).
-simple_s(simple_s(NP, VP)) --> np(NP), vp(VP).
-simple_s(simple_s(NP, CONJ2, SIMPLE_S)) --> np(NP), conj2(CONJ2), simple_s(SIMPLE_S).
-np(np(DET, N)) --> det(DET), n(N).
-np(np(DET, ADJECTIVE, N)) --> det(DET), adjective(ADJECTIVE), n(N).
-np(np(PRO)) --> pro(PRO).
-np(np(PRO_SUBJECT)) --> pro_subject(PRO_SUBJECT).
-vnp(vnp(DET, N)) --> det(DET), n(N).
-vnp(vnp(DET, ADJECTIVE, N)) --> det(DET), adjective(ADJECTIVE), n(N).
-vnp(vnp(PRO)) --> pro(PRO).
-vnp(vnp(PRO_OBJECT)) --> pro_object(PRO_OBJECT).
-vnpp(vnpp(PRO, CN)) --> pro(PRO), cn(CN).
-vnpp(vnpp(PRO_POSSESIVE, CN)) --> pro_possesive(PRO_POSSESIVE), cn(CN).
-vp(vp(V, VNP, DO)) --> v(V), vnp(VNP), do(DO).
-vp(vp(V, VNP, VERB_PREPO, DO)) --> v(V), vnp(VNP), verb_prepo(VERB_PREPO), do(DO).
-vp(vp(V, DO2, VNP)) --> v(V), do2(DO2), vnp(VNP).
-vp(vp(V, DO2, VNP, VERB_PREPO, V2)) --> v(V), do2(DO2), vnp(VNP), verb_prepo(VERB_PREPO), v(V2).
-vp(vp(V, DO2, VNP, VERB_PREPO, VNPP)) --> v(V), do2(DO2), vnp(VNP), verb_prepo(VERB_PREPO), vnpp(VNPP).
-vp(vp(V, VNP)) --> v(V), vnp(VNP).
-vp(vp(V, VNP, VERB_PREPO, V2)) --> v(V), vnp(VNP), verb_prepo(VERB_PREPO), v(V2).
-vp(vp(V, VNP, VERB_PREPO, VNPP)) --> v(V), vnp(VNP), verb_prepo(VERB_PREPO), vnpp(VNPP).
-vp(vp(V)) --> v(V).
-do(do(DET, CN)) --> det(DET), cn(CN).
-do(do(DET, ADJECTIVE, CN)) --> det(DET), adjective(ADJECTIVE), cn(CN).
-do2(do2(DET, CN, PREPOSITION)) --> det(DET), cn(CN), preposition(PREPOSITION).
-verb_prepo(verb_prepo(to)) --> [to].
-det(det(the)) --> [the].
-det(det(a)) --> [a].
+s(s(S)) --> sentence(S).
+s(s(S, C, S2)) --> sentence(S), conjunction(C), s_aux(S2).
+s_aux(s_aux(S)) --> sentence(S).
+
+sentence(sentence(VP)) --> verb_phrase(VP).
+sentence(sentence(NP, VP)) --> noun_phrase(NP), verb_phrase(VP).
+sentence(sentence(NP, C, S)) --> noun_phrase(NP), conjunction(C), sentence(S).
+
+noun_phrase(noun_phrase(N)) --> name(N).
+noun_phrase(noun_phrase(N)) --> noun(N).
+noun_phrase(noun_phrase(N, NO)) --> name(N), noun(NO).
+noun_phrase(noun_phrase(SP)) --> subject_pronoun(SP).
+noun_phrase(noun_phrase(SP, NO)) --> subject_pronoun(SP), noun(NO).
+noun_phrase(noun_phrase(A, N)) --> article(A), noun(N).
+noun_phrase(noun_phrase(A, N)) --> adjective(A), noun(N).
+noun_phrase(noun_phrase(AR, AD, N)) --> article(AR), adjective(AD), noun(N).
+
+verb_phrase(verb_phrase(V)) --> verb(V).
+verb_phrase(verb_phrase(V, NP)) --> verb(V), noun_phrase(NP).
+verb_phrase(verb_phrase(V, NP, NP2)) --> verb(V), noun_phrase(NP), noun_phrase(NP2).
+verb_phrase(verb_phrase(V, PP)) --> verb(V), prepositional_phrase(PP).
+verb_phrase(verb_phrase(V, O)) --> verb(V), object(O).
+verb_phrase(verb_phrase(V, O,PP)) --> verb(V), object(O), prepositional_phrase(PP).
+
+object(object(N)) --> noun(N).
+object(object(OP)) --> object_pronoun(OP).
+prepositional_phrase(prepositional_phrase(P, N)) --> preposition(P), noun_phrase(N).
+prepositional_phrase(prepositional_phrase(P, SP, N)) --> preposition(P), possesive_pronoum(SP), noun_phrase(N).
+prepositional_phrase(prepositional_phrase(P, N, N2)) --> noun_phrase(N), preposition(P), noun_phrase(N2).
+
+article(article(the)) --> [the].
+article(article(a)) --> [a].
+article(article(an)) --> [an].
+
 adjective(adjective(good)) --> [good].
 adjective(adjective(little)) --> [little].
 adjective(adjective(old)) --> [old].
@@ -47,63 +107,66 @@ adjective(adjective(black)) --> [black].
 adjective(adjective(hot)) --> [hot].
 adjective(adjective(cool)) --> [cool].
 adjective(adjective(strong)) --> [strong].
+
+noun(noun(man)) --> [man].
+noun(noun(woman)) --> [woman].
+noun(noun(kid)) --> [kid].
+noun(noun(dog)) --> [dog].
+noun(noun(house)) --> [house].
+noun(noun(car)) --> [car].
+noun(noun(computer)) --> [computer].
+noun(noun(apple)) --> [computer].
+noun(noun(ball)) --> [ball].
+
 preposition(preposition(from)) --> [from]. 
 preposition(preposition(across)) --> [across]. 
 preposition(preposition(with)) --> [with]. 
 preposition(preposition(before)) --> [before]. 
 preposition(preposition(for)) --> [for]. 
 preposition(preposition(like)) --> [like].
-n(n(man)) --> [man].
-n(n(woman)) --> [woman].
-n(n(kid)) --> [kid].
-n(n(dog)) --> [dog].
-n(n(house)) --> [house].
-n(n(car)) --> [car].
-n(n(computer)) --> [computer].
-n(n(ball)) --> [ball].
-cn(cn(house)) --> [house].
-cn(cn(car)) --> [car].
-cn(cn(computer)) --> [computer].
-cn(cn(ball)) --> [ball].
-v(v(bought)) --> [bought].
-v(v(sold)) --> [sold].
-v(v(threw)) --> [threw].
-v(v(read)) --> [read].
-v(v(loves)) --> [loves].
-v(v(invite)) --> [invite].
-v(v(miss)) --> [miss].
-v(v(work)) --> [work].
-conj(conj(and)) --> [and].
-conj(conj(or)) --> [or].
-conj(conj(,)) --> [,].
-conj2(conj2(and)) --> [and].
-conj2(conj2(or)) --> [or].
-conj2(conj2(but)) --> [or].
-conj2(conj2(,)) --> [,].
-pro(pro(jhan)) --> [jhan].
-pro(pro(joseph)) --> [joseph].
-pro(pro(mary)) --> [mary].
-pro(pro(anneleen)) --> [anneleen].
-pro(pro(johan)) --> [johan].
-pro(pro(peter)) --> [peter].
-pro(pro(susan)) --> [susan].
-pro(pro(paul)) --> [paul].
-pro_subject(pro_subject(i)) --> [i].
-pro_subject(pro_subject(you)) --> [you].
-pro_subject(pro_subject(he)) --> [he].
-pro_subject(pro_subject(she)) --> [she].
-pro_subject(pro_subject(we)) --> [we].
-pro_subject(pro_subject(they)) --> [they].
-pro_object(pro_object(me)) --> [me].
-pro_object(pro_object(you)) --> [you].
-pro_object(pro_object(him)) --> [him].
-pro_object(pro_object(her)) --> [her].
-pro_object(pro_object(it)) --> [it].
-pro_object(pro_object(us)) --> [us].
-pro_object(pro_object(them)) --> [them].
-pro_possesive(pro_possesive(mine)) --> [mine].
-pro_possesive(pro_possesive(yours)) --> [yours].
-pro_possesive(pro_possesive(his)) --> [his].
-pro_possesive(pro_possesive(hers)) --> [hers].
-pro_possesive(pro_possesive(ours)) --> [ours].
-pro_possesive(pro_possesive(theirs)) --> [theirs].
+preposition(preposition(to)) --> [to].
+
+verb(verb(bought)) --> [bought].
+verb(verb(sold)) --> [sold].
+verb(verb(threw)) --> [threw].
+verb(verb(read)) --> [read].
+verb(verb(loves)) --> [loves].
+verb(verb(invite)) --> [invite].
+verb(verb(miss)) --> [miss].
+verb(verb(work)) --> [work].
+verb(verb(eat)) --> [eat].
+
+conjunction(conjunction(and)) --> [and].
+conjunction(conjunction(or)) --> [or].
+conjunction(conjunction(,)) --> [,].
+
+name(name(jhan)) --> [jhan].
+name(name(joseph)) --> [joseph].
+name(name(mary)) --> [mary].
+name(name(anneleen)) --> [anneleen].
+name(name(johan)) --> [johan].
+name(name(peter)) --> [peter].
+name(name(susan)) --> [susan].
+name(name(paul)) --> [paul].
+
+subject_pronoun(subject_pronoun(i)) --> [i].
+subject_pronoun(subject_pronoun(you)) --> [you].
+subject_pronoun(subject_pronoun(he)) --> [he].
+subject_pronoun(subject_pronoun(she)) --> [she].
+subject_pronoun(subject_pronoun(we)) --> [we].
+subject_pronoun(subject_pronoun(they)) --> [they].
+
+object_pronoun(object_pronoun(me)) --> [me].
+object_pronoun(object_pronoun(you)) --> [you].
+object_pronoun(object_pronoun(him)) --> [him].
+object_pronoun(object_pronoun(her)) --> [her].
+object_pronoun(object_pronoun(it)) --> [it].
+object_pronoun(object_pronoun(us)) --> [us].
+object_pronoun(object_pronoun(them)) --> [them].
+
+possesive_pronoum(possesive_pronoum(mine)) --> [mine].
+possesive_pronoum(possesive_pronoum(yours)) --> [yours].
+possesive_pronoum(possesive_pronoum(his)) --> [his].
+possesive_pronoum(possesive_pronoum(hers)) --> [hers].
+possesive_pronoum(possesive_pronoum(ours)) --> [ours].
+possesive_pronoum(possesive_pronoum(theirs)) --> [theirs].
